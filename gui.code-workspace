@@ -1,0 +1,130 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "root",
+    },
+    {
+      "path": "apps",
+    },
+  ],
+  "settings": {
+    "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+    "npm.packageManager": "pnpm",
+    "editor.lightbulb.enabled": "on",
+    "editor.defaultFormatter": "dprint.dprint",
+    "editor.insertSpaces": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit",
+    },
+    "editor.rulers": [
+      100
+    ],
+    "editor.overviewRulerBorder": true,
+    "editor.experimentalWhitespaceRendering": "font",
+    "editor.renderWhitespace": "none",
+    "[css]": {
+      "editor.defaultFormatter": "vscode.css-language-features",
+      "editor.formatOnSave": true,
+    },
+    "[json]": {
+      "editor.defaultFormatter": "dprint.dprint",
+      "editor.formatOnSave": true,
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "vscode.json-language-features",
+      "editor.formatOnSave": true,
+    },
+    "[html]": {
+      "editor.defaultFormatter": "vscode.html-language-features",
+      "editor.formatOnSave": true,
+    },
+    "[prisma]": {
+      "editor.defaultFormatter": "Prisma.prisma-insider",
+      "editor.formatOnSave": true,
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "dprint.dprint",
+      "editor.formatOnSave": true,
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "dprint.dprint",
+      "editor.formatOnSave": true,
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "dprint.dprint",
+      "editor.formatOnSave": true,
+    },
+    "[javascriptreact]": {
+      "editor.defaultFormatter": "dprint.dprint",
+      "editor.formatOnSave": true,
+    },
+    "[yaml]": {
+      "editor.defaultFormatter": "dprint.dprint",
+      "editor.formatOnSave": true,
+    },
+    "[xml]": {
+      "editor.defaultFormatter": "redhat.vscode-xml",
+      "editor.formatOnSave": true,
+    },
+    // "typescript.experimental.useTsgo": true,
+    "typescript.format.semicolons": "insert",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifierEnding": "js",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "javascript.preferences.importModuleSpecifier": "non-relative",
+    "javascript.preferences.importModuleSpecifierEnding": "js",
+    "html.autoClosingTags": true,
+    "html.format.indentInnerHtml": true,
+    "html.format.maxPreserveNewLines": 1,
+    "workbench.editor.labelFormat": "medium",
+    "files.watcherExclude": {
+      "**/routeTree.gen.ts": true,
+    },
+    "files.readonlyInclude": {
+      "**/routeTree.gen.ts": true,
+    },
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/node_modules": true,
+      "**/.nitro": true,
+      "**/.output": true,
+    },
+    "search.exclude": {
+      "**/routeTree.gen.ts": true,
+      "**/node_modules": true,
+      "**/.nitro": true,
+      "**/.output": true,
+      "**/.tanstack": true,
+      "**/prisma/generated": true
+    },
+    "cSpell.words": [
+      "Camo",
+      "coor",
+      "Coor",
+      "customerid",
+      "dotenv",
+      "labelledby",
+      "lmdb",
+      "malva",
+      "msgpackr",
+      "Stroustrup",
+      "Tsgo",
+      "tsquery",
+      "tsvector",
+      "XLARGE",
+      "XSMALL",
+      "XXLARGE"
+    ],
+  },
+  "extensions": {
+    "recommendations": [
+      "dprint.dprint"
+    ],
+  },
+}

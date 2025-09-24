@@ -1,0 +1,16 @@
+{
+  "name": "@gui/workspace",
+  "private": true,
+  "version": "1.0.0",
+  "packageManager": "pnpm@10.17.1",
+  "type": "module",
+  "scripts": {
+    "setup": "rimraf -g **/node_modules pnpm-lock.yaml && pnpm install"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
