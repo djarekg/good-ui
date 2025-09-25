@@ -147,7 +147,7 @@ model Product {
   id               String             @id @default(uuid())
   name             String
   description      String
-  price            String
+  price            Decimal            @db.Decimal(10, 2)
   genderId         String
   productType      ProductType
   isActive         Boolean            @default(false)
@@ -183,7 +183,7 @@ model ProductSale {
   customerId  String
   userId      String
   quantity    Int
-  price       String
+  price       Decimal  @db.Decimal(10, 2)
   dateCreated DateTime @default(now())
   dateUpdated DateTime @updatedAt
   product     Product  @relation(fields: [productId], references: [id])
