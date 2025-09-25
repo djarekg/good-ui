@@ -21,4 +21,8 @@ export default defineConfig({
       },
     }),
   ],
+  experimental: {
+    enableNativePlugin: true,
+    hmrPartialAccept: true,
+  },
 });
