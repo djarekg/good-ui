@@ -1,0 +1,27 @@
+html,
+body {
+  font-smooth: smooth;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Border box everywhere */
+html {
+  font-size: 62.5%;
+}
+
+#root,
+main {
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 400;
+}

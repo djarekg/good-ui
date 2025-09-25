@@ -1,12 +1,13 @@
+import Header from '@/layout/header.tsx';
 import { Outlet } from 'react-router';
 
 const Root = () => {
   return (
     <>
-      <header>
-        Header
-      </header>
-      <Outlet />
+      <Header />
+      <main>
+        <Outlet />
+      </main>
     </>
   );
 };

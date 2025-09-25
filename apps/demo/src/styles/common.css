@@ -1,0 +1,7 @@
+:root {
+  --app-header-height: 80px;
+
+  --app-brand-color-gradient: linear-gradient(to right,
+      var(--mui-palette-primary-main),
+      var(--mui-palette-secondary-main));
+}

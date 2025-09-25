@@ -1,0 +1,12 @@
+header {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  height: var(--app-header-height);
+  padding: 1rem 2rem;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
