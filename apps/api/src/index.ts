@@ -10,4 +10,10 @@ export type {
   StateModel,
   UserModel,
 } from '#app/generated/prisma/models.js';
-export type { CustomerHeaderInfo, SearchResult, SearchResultParams } from '#app/types/index.js';
+export type {
+  CustomerHeaderInfo,
+  SearchResult,
+  SearchResultParams,
+  TopSellerModel,
+  TotalSalesModel,
+} from '#app/types/index.js';

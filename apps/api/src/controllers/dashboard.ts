@@ -4,8 +4,8 @@ import type { Context } from 'koa';
 export const getTopSellers = async (ctx: Context) => {
   const { params: { year } } = ctx;
   // Construct the start and end dates for the year
-  const startOfYear = new Date(`${year}-01-01T00:00:00.000Z`);
-  const startOfNextYear = new Date(`${year + 1}-01-01T00:00:00.000Z`);
+  const startOfYear = new Date(`${Number(year)}-01-01T00:00:00.000Z`);
+  const startOfNextYear = new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`);
 
   try {
     const totalSales = await prisma.productSale.groupBy({
@@ -26,7 +26,32 @@ export const getTopSellers = async (ctx: Context) => {
       },
     });
 
-    ctx.body = totalSales;
+    const userIds = totalSales.map(({ userId }) => userId);
+
+    const users = await prisma.user.findMany({
+      where: {
+        id: {
+          in: userIds,
+        },
+      },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+      },
+    });
+
+    const result = totalSales.map(({ _sum: { price }, userId }) => {
+      const { firstName, lastName } = users.find(({ id }) => id === userId)!;
+
+      return {
+        userId,
+        name: `${firstName} ${lastName}`,
+        total: price,
+      };
+    });
+
+    ctx.body = result;
   }
   catch (err) {
     ctx.status = 500;
@@ -38,11 +63,11 @@ export const getTopSellers = async (ctx: Context) => {
 export const getTotalSales = async (ctx: Context) => {
   const { params: { year } } = ctx;
   // Construct the start and end dates for the year
-  const startOfYear = new Date(`${year}-01-01T00:00:00.000Z`);
-  const startOfNextYear = new Date(`${year + 1}-01-01T00:00:00.000Z`);
+  const startOfYear = new Date(`${Number(year)}-01-01T00:00:00.000Z`);
+  const startOfNextYear = new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`);
 
   try {
-    const totalSales = await prisma.productSale.aggregate({
+    const { _sum } = await prisma.productSale.aggregate({
       _sum: {
         price: true,
       },
@@ -54,7 +79,7 @@ export const getTotalSales = async (ctx: Context) => {
       },
     });
 
-    ctx.body = totalSales;
+    ctx.body = { total: _sum.price };
   }
   catch (err) {
     ctx.status = 500;

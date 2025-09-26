@@ -17,6 +17,9 @@
       "@/*": [
         "./src/*"
       ],
+      "@gui/api": [
+        "../api/src/index.ts"
+      ]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -4,6 +4,6 @@ import Router from '@koa/router';
 const router = new Router();
 
 router.get('/dashboard/top-sellers/:year', getTopSellers);
-router.get('/customers/total-sales/:year', getTotalSales);
+router.get('/dashboard/total-sales/:year', getTotalSales);
 
 export default router;

@@ -1,0 +1,9 @@
+.header {
+  display: flex;
+  font-size: 1.2rem;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+}

@@ -6,6 +6,7 @@ import {
   authRouter,
   customerContactsRouter,
   customersRouter,
+  dashboardRouter,
   productsRouter,
   searchRouter,
   statesRouter,
@@ -24,6 +25,7 @@ app.use(koaBody());
 
 // Setup api routes
 app.use(authRouter.routes());
+app.use(dashboardRouter.routes());
 app.use(usersRouter.routes());
 app.use(statesRouter.routes());
 app.use(searchRouter.routes());
