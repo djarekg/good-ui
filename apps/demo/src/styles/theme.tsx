@@ -1,6 +1,19 @@
 import CssBaseline from '@mui/material/CssBaseline';
+import type { LinkProps } from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import type { ReactNode } from 'react';
+import { forwardRef, type ReactNode } from 'react';
+import { Link as RouterLink, type LinkProps as RouterLinkProps } from 'react-router';
+
+// Since mui and react-router use different nav url properties on Links,
+// configure them to be the same.
+const LinkBehavior = forwardRef<
+  HTMLAnchorElement,
+  Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to']; }
+>((props, ref) => {
+  const { href, ...other } = props;
+  // Map href (Material UI) -> to (react-router)
+  return <RouterLink ref={ref} to={href} {...other} role={undefined} />;
+});
 
 const theme = createTheme({
   cssVariables: true,
@@ -33,6 +46,18 @@ const theme = createTheme({
     },
     success: {
       main: '#4aedc4',
+    },
+  },
+  components: {
+    MuiLink: {
+      defaultProps: {
+        component: LinkBehavior,
+      } as LinkProps,
+    },
+    MuiButtonBase: {
+      defaultProps: {
+        LinkComponent: LinkBehavior,
+      },
     },
   },
 });

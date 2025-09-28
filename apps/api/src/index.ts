@@ -12,8 +12,10 @@ export type {
 } from '#app/generated/prisma/models.js';
 export type {
   CustomerHeaderInfo,
+  ProductTypeTotalModel,
   SearchResult,
   SearchResultParams,
   TopSellerModel,
+  TotalQuantitySoldModel,
   TotalSalesModel,
 } from '#app/types/index.js';

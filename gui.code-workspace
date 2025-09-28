@@ -9,6 +9,12 @@
     },
   ],
   "settings": {
+    "chat.mcp.discovery.enabled": {
+      "claude-desktop": true,
+      "windsurf": true,
+      "cursor-global": true,
+      "cursor-workspace": true
+    },
     "github.copilot.chat.codeGeneration.useInstructionFiles": true,
     "npm.packageManager": "pnpm",
     "editor.lightbulb.enabled": "on",
@@ -27,6 +33,9 @@
     "[css]": {
       "editor.defaultFormatter": "vscode.css-language-features",
       "editor.formatOnSave": true,
+    },
+    "[postcss]": {
+      "editor.defaultFormatter": "vscode.css-language-features"
     },
     "[json]": {
       "editor.defaultFormatter": "dprint.dprint",
@@ -122,10 +131,24 @@
       "XSMALL",
       "XXLARGE"
     ],
+    "chat.mcp.access": "all",
   },
   "extensions": {
     "recommendations": [
       "dprint.dprint"
     ],
   },
+  "mcp": {
+    "inputs": [],
+    "servers": {
+      "mui-mcp": {
+        "type": "stdio",
+        "command": "npx",
+        "args": [
+          "-y",
+          "@mui/mcp@latest"
+        ]
+      }
+    }
+  }
 }

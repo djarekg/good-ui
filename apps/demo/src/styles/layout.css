@@ -15,11 +15,16 @@ main {
   width: 100%;
 }
 
+#root {
+  overflow: hidden auto;
+}
+
 main {
   display: flex;
   flex-direction: column;
   height: calc(100vh - var(--app-header-height));
   min-width: 100%;
   width: 100%;
-  padding: 2rem;
+  padding-inline: 2rem;
+  margin-block: 2rem;
 }

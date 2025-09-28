@@ -1,11 +1,6 @@
 @import "./styles/common.css";
 @import "./styles/base.css";
+@import "./styles/colors.css";
 @import "./styles/layout.css";
 @import "./styles/components.css";
-
-.app-brand-text-color {
-  background: var(--app-brand-color-gradient);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+@import "./styles/mixins.css";
