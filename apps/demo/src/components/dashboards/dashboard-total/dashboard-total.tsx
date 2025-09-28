@@ -14,6 +14,15 @@ const formatter = {
   [TotalType.int]: numberFormatter,
 };
 
+const renderIcon = (type: TotalType) => {
+  switch (type) {
+    case TotalType.currency:
+      return <AttachMoneyIcon className={styles.icon} fontSize='large' />;
+    case TotalType.int:
+      return <LayersIcon className={styles.icon} fontSize='large' />;
+  }
+};
+
 type DashboardTotalProps<T extends TotalModel> = {
   initialData?: T;
   queryFn: () => Promise<T>;
@@ -26,27 +35,12 @@ const DashboardTotal = <T extends TotalModel>(
 ) => {
   const { data } = useQuery<T>({ initialData, queryFn });
 
-  const renderIcon = () => {
-    switch (type) {
-      case TotalType.currency:
-        return <AttachMoneyIcon className={styles.icon} fontSize='large' />;
-      case TotalType.int:
-        return <LayersIcon className={styles.icon} fontSize='large' />;
-    }
-  };
-
-  const renderOptions = () => {
-    return (
+  return (
+    <section className={styles.container}>
+      {renderIcon(type)}
       <IconButton aria-label='options' className={styles.options}>
         <MoreHorizIcon />
       </IconButton>
-    );
-  };
-
-  return (
-    <section className={styles.container}>
-      {renderIcon()}
-      {renderOptions()}
       <span className={styles.label}>{label}</span>
       <span className={styles.total}>{formatter[type].format(data?.total ?? 0)}</span>
     </section>

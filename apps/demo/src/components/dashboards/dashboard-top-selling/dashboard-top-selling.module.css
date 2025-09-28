@@ -6,10 +6,19 @@
 }
 
 .header {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  gap: 2rem;
   align-items: center;
   padding: 5px 2px;
+  padding-inline-end: 16px;
+}
+
+.options {
+  position: absolute !important;
+  inset-block-start: -4px;
+  inset-inline-end: -14px;
+  color: var(--mui-palette-primary-main);
 }
 
 .label {
