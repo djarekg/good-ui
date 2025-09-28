@@ -1,5 +1,5 @@
 export type TopSellerModel = {
-  userId: string;
+  id: string;
   name: string;
   total: number;
 };

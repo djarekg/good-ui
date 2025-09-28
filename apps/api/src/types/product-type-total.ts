@@ -1,4 +1,5 @@
 export type ProductTypeTotalModel = {
-  productType: string;
+  id: string;
+  name: string;
   total: number;
 };

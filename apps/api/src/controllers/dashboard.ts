@@ -45,7 +45,7 @@ export const getTopSellers = async (ctx: Context) => {
       const { firstName, lastName } = users.find(({ id }) => id === userId)!;
 
       return {
-        userId,
+        id: userId,
         name: `${firstName} ${lastName}`,
         total: price,
       };
@@ -95,7 +95,7 @@ export const getTopSellingProductTypes = async (ctx: Context) => {
 
     // Convert to array and sort descending by total
     const result = Object.entries(totalsByType)
-      .map(([productType, total]) => ({ productType, total }))
+      .map(([productType, total]) => ({ id: productType, name: productType, total }))
       .sort((a, b) => b.total - a.total);
 
     ctx.body = result;
