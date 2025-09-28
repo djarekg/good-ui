@@ -12,6 +12,13 @@
 .icon {
   position: absolute;
   inset-block-start: 6px;
+  inset-inline-start: 6px;
+  color: var(--mui-palette-primary-main);
+}
+
+.options {
+  position: absolute !important;
+  inset-block-start: 6px;
   inset-inline-end: 6px;
   color: var(--mui-palette-primary-main);
 }

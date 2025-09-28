@@ -1,5 +1,6 @@
 import { useQuery } from '@/core/hooks/use-query.ts';
 import { formatter } from '@/core/utils/currency.ts';
+import { titleCase } from '@/core/utils/title-case.ts';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { useEffect, useState } from 'react';
@@ -16,24 +17,33 @@ type DashboardTopSellingProps<T extends TopSellingModel> = {
 const DashboardTopSelling = <T extends TopSellingModel>(
   { initialData = [], queryFn, label }: DashboardTopSellingProps<T>,
 ) => {
+  const [isTopFive, setIsTopFive] = useState(true);
   const [filteredData, setFilteredData] = useState<T[]>([]);
   const { data } = useQuery<T[]>({ initialData, queryFn });
 
   useEffect(() => {
-    setFilteredData(data?.slice(0, 5) ?? []);
+    if (isTopFive) {
+      setFilteredData(data?.slice(0, 5) ?? []);
+    }
+    else {
+      setFilteredData(data ?? []);
+    }
   }, [data]);
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <span className={styles.label}>{label}</span>
-        <FormControlLabel control={<Switch defaultChecked />} label='Top 5' />
+        <FormControlLabel
+          control={<Switch checked={isTopFive} onChange={e => setIsTopFive(e.target.checked)} />}
+          label={isTopFive ? 'Top 5' : 'All'}
+        />
       </header>
       <section className={styles.section}>
         {filteredData?.map(({ id, name, total }) => {
           return (
             <Fragment key={id}>
-              <div className={styles.name}>{name}</div>
+              <div className={styles.name}>{titleCase(name)}</div>
               <div className={styles.total}>{formatter.format(total)}</div>
             </Fragment>
           );

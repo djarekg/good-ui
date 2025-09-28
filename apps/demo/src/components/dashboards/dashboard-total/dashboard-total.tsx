@@ -3,6 +3,8 @@ import { formatter as currencyFormatter } from '@/core/utils/currency';
 import { formatter as numberFormatter } from '@/core/utils/number';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LayersIcon from '@mui/icons-material/Layers';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import IconButton from '@mui/material/IconButton';
 import styles from './dashboard-total.module.css';
 import { TotalType } from './total-type.ts';
 import type { TotalModel } from './total.ts';
@@ -33,9 +35,18 @@ const DashboardTotal = <T extends TotalModel>(
     }
   };
 
+  const renderOptions = () => {
+    return (
+      <IconButton aria-label='options' className={styles.options}>
+        <MoreHorizIcon />
+      </IconButton>
+    );
+  };
+
   return (
     <section className={styles.container}>
       {renderIcon()}
+      {renderOptions()}
       <span className={styles.label}>{label}</span>
       <span className={styles.total}>{formatter[type].format(data?.total ?? 0)}</span>
     </section>

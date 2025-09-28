@@ -1,12 +1,7 @@
 :root {
-  /* --mui-palette-primary-dark: #1e58b2;
-  --mui-palette-primary-light: #5598ff;
-  --mui-palette-secondary-dark: #5817b1;
-  --mui-palette-secondary-light: #984efe; */
-
   --app-color-surface-1: #222222;
 
-  --app-brand-color-gradient: linear-gradient(to top right,
+  --app-brand-color-gradient: linear-gradient(to top left,
       var(--mui-palette-primary-main),
       var(--mui-palette-primary-dark));
 }
