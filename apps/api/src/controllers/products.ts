@@ -5,7 +5,7 @@ import type { Context } from 'koa';
 
 export const getProducts = async (ctx: Context) => {
   const { query: { productTypes } } = ctx;
-  const where = productTypes === ''
+  const where = !productTypes || productTypes === ''
     ? undefined
     : {
       productType: {
