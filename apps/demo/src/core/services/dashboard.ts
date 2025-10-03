@@ -1,4 +1,4 @@
-import useApi from '@/core/hooks/use-api.ts';
+import useApi from '@/core/hooks/use-api.js';
 import type {
   ProductTypeTotalModel,
   TopSellerModel,

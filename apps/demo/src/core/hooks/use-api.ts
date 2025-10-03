@@ -1,5 +1,5 @@
-import { ApiError } from '@/core/api/api-error.ts';
-import type { PlainObject } from '@/types/plain-object.ts';
+import { ApiError } from '@/core/api/api-error.js';
+import type { PlainObject } from '@/types/plain-object.js';
 
 export type ApiOptions = {
   headers?: Record<string, string>;
@@ -17,9 +17,7 @@ const buildQueryString = (query?: PlainObject) => {
 
   for (const [k, v] of Object.entries(query)) {
     if (v === undefined || v === null) continue;
-    pairs.push(
-      encodeURIComponent(k) + '=' + encodeURIComponent(String(v)),
-    );
+    pairs.push(encodeURIComponent(k) + '=' + encodeURIComponent(String(v)));
   }
 
   return pairs.length ? `?${pairs.join('&')}` : '';
@@ -35,8 +33,7 @@ const safeParseResponse = async (res: Response): Promise<unknown> => {
 
   try {
     return JSON.parse(text);
-  }
-  catch {
+  } catch {
     return text;
   }
 };
@@ -46,7 +43,7 @@ export default function useApi(baseUrl = import.meta.env.VITE_API_URL) {
     method: string,
     path: string,
     body?: unknown,
-    options: ApiOptions = {},
+    options: ApiOptions = {}
   ): Promise<T> => {
     const url = `${baseUrl}${path}${buildQueryString(options.query)}`;
     const headers: Record<string, string> = {
@@ -73,8 +70,7 @@ export default function useApi(baseUrl = import.meta.env.VITE_API_URL) {
         const ct = headers['Content-Type'] || '';
         if (ct.includes('application/json')) {
           fetchOptions.body = JSON.stringify(body);
-        }
-        else {
+        } else {
           // @ts-ignore allow non-string body if caller wants to send FormData, etc.
           fetchOptions.body = body as any;
         }
@@ -84,8 +80,7 @@ export default function useApi(baseUrl = import.meta.env.VITE_API_URL) {
     let res: Response;
     try {
       res = await fetch(url, fetchOptions);
-    }
-    catch (err) {
+    } catch (err) {
       // network or CORS error
       throw err;
     }

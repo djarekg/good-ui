@@ -1,6 +1,6 @@
-import ErrorMessage from '@/components/error/error-message.tsx';
+import ErrorMessage from '@/components/error/error-message.js';
 import Loader from '@/components/loader/loader.js';
-import ProductList from '@/components/product/product-list/product-list.tsx';
+import ProductList from '@/components/product/product-list/product-list.js';
 import { useQuery } from '@/core/hooks/use-query.js';
 import { getProducts } from '@/core/services';
 import type { ProductModel } from '@gui/api';

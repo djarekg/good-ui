@@ -1,10 +1,10 @@
-import DashboardTopSelling from '@/components/dashboards/dashboard-top-selling/dashboard-top-selling.tsx';
-import { getTopSellingProductTypes } from '@/core/services/dashboard.ts';
+import DashboardTopSelling from '@/components/dashboard/dashboard-top-selling/dashboard-top-selling.js';
+import { getTopSellingProductTypes } from '@/core/services/dashboard.js';
 
 const TopSellingProductTypes = () => {
   return (
     <DashboardTopSelling
-      label='Top Sellers'
+      label="Top Sellers"
       initialData={[]}
       queryFn={() => getTopSellingProductTypes(new Date().getFullYear())}
     />

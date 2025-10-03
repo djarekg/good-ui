@@ -1,0 +1,10 @@
+.container {
+  background: var(--app-color-surface-1);
+  border-radius: 12px;
+  padding-block: 1rem 1.8rem;
+  padding-inline: 1.8rem;
+}
+
+.header {
+  padding-block: 9px;
+}

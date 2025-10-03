@@ -1,6 +1,6 @@
 import type { PrismaClient } from '#app/generated/prisma/client.js';
-import { faker } from './faker-context.ts';
-import { useState } from './state.ts';
+import { faker } from './faker-context.js';
+import { useState } from './state.js';
 
 export const createCustomers = async (prisma: PrismaClient) => {
   console.log('Seeding Customer...');

@@ -18,7 +18,7 @@
     "github.copilot.chat.codeGeneration.useInstructionFiles": true,
     "npm.packageManager": "pnpm",
     "editor.lightbulb.enabled": "on",
-    "editor.defaultFormatter": "dprint.dprint",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.insertSpaces": true,
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit",
@@ -30,6 +30,18 @@
     "editor.overviewRulerBorder": true,
     "editor.experimentalWhitespaceRendering": "font",
     "editor.renderWhitespace": "none",
+
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "json",
+      "jsonc",
+      "html",
+      "css"
+    ],
+
     "[css]": {
       "editor.defaultFormatter": "vscode.css-language-features",
       "editor.formatOnSave": true,
@@ -38,7 +50,7 @@
       "editor.defaultFormatter": "vscode.css-language-features"
     },
     "[json]": {
-      "editor.defaultFormatter": "dprint.dprint",
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.formatOnSave": true,
     },
     "[jsonc]": {
@@ -54,29 +66,30 @@
       "editor.formatOnSave": true,
     },
     "[typescript]": {
-      "editor.defaultFormatter": "dprint.dprint",
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.formatOnSave": true,
     },
     "[typescriptreact]": {
-      "editor.defaultFormatter": "dprint.dprint",
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.formatOnSave": true,
     },
     "[javascript]": {
-      "editor.defaultFormatter": "dprint.dprint",
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.formatOnSave": true,
     },
     "[javascriptreact]": {
-      "editor.defaultFormatter": "dprint.dprint",
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.formatOnSave": true,
     },
     "[yaml]": {
-      "editor.defaultFormatter": "dprint.dprint",
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.formatOnSave": true,
     },
     "[xml]": {
       "editor.defaultFormatter": "redhat.vscode-xml",
       "editor.formatOnSave": true,
     },
+
     // "typescript.experimental.useTsgo": true,
     "typescript.format.semicolons": "insert",
     "typescript.preferences.importModuleSpecifier": "non-relative",
@@ -84,10 +97,13 @@
     "typescript.tsdk": "node_modules/typescript/lib",
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "javascript.preferences.importModuleSpecifierEnding": "js",
+
     "html.autoClosingTags": true,
     "html.format.indentInnerHtml": true,
     "html.format.maxPreserveNewLines": 1,
+
     "workbench.editor.labelFormat": "medium",
+
     "files.watcherExclude": {
       "**/routeTree.gen.ts": true,
     },
@@ -112,11 +128,13 @@
       "**/.tanstack": true,
       "**/prisma/generated": true
     },
+
     "cSpell.words": [
       "Camo",
       "coor",
       "Coor",
       "customerid",
+      "dbaeumer",
       "dotenv",
       "labelledby",
       "lmdb",
@@ -131,11 +149,15 @@
       "XSMALL",
       "XXLARGE"
     ],
+
     "chat.mcp.access": "all",
   },
+
   "extensions": {
     "recommendations": [
-      "dprint.dprint"
+      "prisma.prisma-insider",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint"
     ],
   },
   "mcp": {

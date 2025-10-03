@@ -1,7 +1,7 @@
 import type { PrismaClient } from '#app/generated/prisma/client.js';
 import { Gender } from '#app/generated/prisma/enums.js';
-import { faker } from './faker-context.ts';
-import { useState } from './state.ts';
+import { faker } from './faker-context.js';
+import { useState } from './state.js';
 
 export const createUsers = async (prisma: PrismaClient) => {
   console.log('Seeding User...');

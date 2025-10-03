@@ -7,15 +7,15 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{js,ts}]
+[*.{js,mjs,ts,jsx,tsx}]
 quote_type = single
 
-[*.{css,html,js,md,ts,yml}]
+[*.{css,html,js,mjs,jsx,md,ts,tsx,yml}]
 indent_size = 2
 max_line_length = 100
 tab_width = 2
 
-[*.{html,js,md,ts}]
+[*.{html,js,jsx,mjs,md,ts,tsx}]
 block_comment_start = /**
 block_comment = *
 block_comment_end = */

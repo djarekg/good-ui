@@ -3,6 +3,7 @@
   border-radius: 12px;
   padding-block: 1rem 1.8rem;
   padding-inline: 1.8rem;
+  min-height: 228px;
 }
 
 .header {

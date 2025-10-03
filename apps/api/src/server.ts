@@ -1,7 +1,7 @@
 import cors from '@koa/cors';
 import Koa from 'koa';
 import { koaBody } from 'koa-body';
-import { corsOrigin, port } from './config.ts';
+import { corsOrigin, port } from './config.js';
 import {
   authRouter,
   customerContactsRouter,
@@ -11,7 +11,7 @@ import {
   searchRouter,
   statesRouter,
   usersRouter,
-} from './routes/index.ts';
+} from './routes/index.js';
 
 const app = new Koa();
 
@@ -19,7 +19,7 @@ app.use(
   cors({
     allowMethods: ['GET', 'PUT', 'DELETE', 'POST', 'OPTIONS'],
     origin: corsOrigin,
-  }),
+  })
 );
 app.use(koaBody());
 

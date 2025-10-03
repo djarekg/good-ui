@@ -1,12 +1,12 @@
 import type { PrismaClient } from '#app/generated/prisma/client.js';
-import { faker } from './faker-context.ts';
-import { useState } from './state.ts';
+import { faker } from './faker-context.js';
+import { useState } from './state.js';
 
 export const createCustomerContacts = async (prisma: PrismaClient) => {
   console.log('Seeding CustomerContact...');
 
   // A wait is need for previous seeding to complete
-  await new Promise(resolve => setTimeout(() => resolve(true)));
+  await new Promise((resolve) => setTimeout(() => resolve(true)));
 
   const customers = await prisma.customer.findMany({
     select: {
@@ -19,7 +19,7 @@ export const createCustomerContacts = async (prisma: PrismaClient) => {
     return;
   }
 
-  const customerIds = customers.map(customer => customer.id);
+  const customerIds = customers.map((customer) => customer.id);
 
   for (let i = 0, len = customerIds.length; i < len; i++) {
     const customerId = customerIds[i];

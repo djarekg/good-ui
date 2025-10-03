@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import App from './app.tsx';
+import App from './app.js';
 import './index.css';
 import AppTheme from './styles/theme';
 
@@ -9,5 +9,5 @@ createRoot(document.getElementById('root')!).render(
     <AppTheme>
       <App />
     </AppTheme>
-  </StrictMode>,
+  </StrictMode>
 );

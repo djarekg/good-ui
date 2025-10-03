@@ -1,0 +1,10 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: var(--app-color-surface-1);
+  padding: 3rem;
+  border-radius: 12px;
+}

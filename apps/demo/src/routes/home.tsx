@@ -1,11 +1,15 @@
-import TopSellers from '@/components/dashboards/top-sellers';
-import TopSellingProductTypes from '@/components/dashboards/top-selling-product-types';
-import TotalQuantitySold from '@/components/dashboards/total-quantity-sold.tsx';
-import TotalSales from '@/components/dashboards/total-sales';
-import DashboardTopSellingSkeleton from '@/routes/skeleton/dashboard-top-selling-skeleton/dashboard-top-selling-skeleton.tsx';
-import DashboardTotalSkeleton from '@/routes/skeleton/dashboard-total-skeleton/dashboard-total-skeleton.tsx';
+import DashboardTopSellingSkeleton from '@/components/skeleton/dashboard-top-selling-skeleton/dashboard-top-selling-skeleton';
+import DashboardTotalSkeleton from '@/components/skeleton/dashboard-total-skeleton/dashboard-total-skeleton';
+import { lazyDelay } from '@/core/utils/lazy-delay.js';
 import { Grid } from '@mui/material';
 import { Suspense } from 'react';
+
+const TopSellingProductTypes = lazyDelay(
+  () => import('@/components/dashboard/top-selling-product-types.js')
+);
+const TopSellers = lazyDelay(() => import('@/components/dashboard/top-sellers.js'));
+const TotalQuantitySold = lazyDelay(() => import('@/components/dashboard/total-quantity-sold.js'));
+const TotalSales = lazyDelay(() => import('@/components/dashboard/total-sales.js'));
 
 const Home = () => {
   return (

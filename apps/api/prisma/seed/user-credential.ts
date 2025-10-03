@@ -1,7 +1,7 @@
 import { generateHash } from '#app/crypto/hash.js';
 import type { PrismaClient } from '#app/generated/prisma/client.js';
 import { Role } from '#app/generated/prisma/enums.js';
-import { faker } from './faker-context.ts';
+import { faker } from './faker-context.js';
 
 export const createUserCredential = async (prisma: PrismaClient) => {
   console.log('Seeding UserCredential...');
@@ -25,7 +25,7 @@ export const createUserCredential = async (prisma: PrismaClient) => {
       })),
     });
 
-  const userIds: { id: string; }[] = await prisma.user.findMany({
+  const userIds: { id: string }[] = await prisma.user.findMany({
     select: {
       id: true,
     },

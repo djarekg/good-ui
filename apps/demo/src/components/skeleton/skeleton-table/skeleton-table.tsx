@@ -1,3 +1,4 @@
+import { Skeleton } from '@mui/material';
 import type { FC } from 'react';
 import styles from './skeleton-table.module.css';
 
@@ -12,18 +13,14 @@ const SkeletonTable: FC<SkeletonTableProps> = ({ rows, columns }) => {
 
   return (
     <div className={styles.table}>
-      {rowsArray.map(() => {
-        return (
-          <div>
-            {columnsArray.map(() => {
-              return (
-                <div>
-                  <span className={`${styles.cell} ${styles.skeleton}`} />
-                </div>
-              );
-            })}
-          </div>
-        );
+      {rowsArray.map((_, rowIndex) => {
+        return columnsArray.map((_, colIndex) => {
+          return (
+            <div key={`row-${rowIndex}-col-${colIndex}`} className={`col-${(colIndex + 1)}`}>
+              <Skeleton width={colIndex === 0 ? '9ch' : '11ch'} />
+            </div>
+          );
+        });
       })}
     </div>
   );

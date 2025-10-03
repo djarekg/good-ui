@@ -6,7 +6,7 @@ import { createProducts } from '#prisma/seed/product.js';
 import { createUserCredential } from '#prisma/seed/user-credential.js';
 import { createCustomerContacts } from './customer-contact.js';
 import { createCustomers } from './customer.js';
-import { createStates } from './state.ts';
+import { createStates } from './state.js';
 import { createUsers } from './user.js';
 
 const load = async () => {
@@ -23,7 +23,7 @@ const load = async () => {
 
 load()
   .then(() => console.log('Seed completed'))
-  .catch(error => {
+  .catch((error) => {
     console.error(error);
     process.exit(1);
   })
