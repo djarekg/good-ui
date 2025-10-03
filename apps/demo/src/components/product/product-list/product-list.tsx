@@ -9,7 +9,7 @@ const ProductList: FC<ProductListProps> = ({ products }) => {
   return (
     <>
       {products?.map(({ name }) => {
-        <div>{name}</div>;
+        return <div>{name}</div>;
       })}
     </>
   );
