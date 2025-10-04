@@ -5,8 +5,8 @@ const TopSellers = () => {
   return (
     <DashboardTopSelling
       label="Top Sellers"
-      initialData={[]}
-      queryFn={() => getTopSellers(new Date().getFullYear())}
+      defaultValue={[]}
+      loader={() => getTopSellers(new Date().getFullYear())}
     />
   );
 };

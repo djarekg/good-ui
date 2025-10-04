@@ -1,4 +1,4 @@
-import { useQuery } from '@/core/hooks/use-query.js';
+import { useResource } from '@/core/hooks/use-resource.js';
 import { formatter } from '@/core/utils/currency.js';
 import { titleCase } from '@/core/utils/title-case.js';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -11,19 +11,19 @@ import styles from './dashboard-top-selling.module.css';
 import type { TopSellingModel } from './top-selling.js';
 
 type DashboardTopSellingProps<T extends TopSellingModel> = {
-  initialData?: T[];
-  queryFn: () => Promise<T[]>;
+  defaultValue?: T[];
+  loader: () => Promise<T[]>;
   label: string;
 };
 
 const DashboardTopSelling = <T extends TopSellingModel>({
-  initialData = [],
-  queryFn,
+  defaultValue = [],
+  loader,
   label,
 }: DashboardTopSellingProps<T>) => {
   const [isTopFive, setIsTopFive] = useState(true);
   const [filteredData, setFilteredData] = useState<T[]>([]);
-  const { data } = useQuery<T[]>({ initialData, queryFn });
+  const { data } = useResource({ defaultValue, loader });
 
   useEffect(() => {
     const filtered = (isTopFive ? data?.slice(0, 5) : data) ?? [];

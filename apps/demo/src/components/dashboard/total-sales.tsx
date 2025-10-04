@@ -7,8 +7,8 @@ const TotalSales = () => {
     <DashboardTotal
       type={TotalType.currency}
       label="Total Sales"
-      initialData={{ total: 0 }}
-      queryFn={() => getTotalSales(new Date().getFullYear())}
+      defaultValue={{ total: 0 }}
+      loader={() => getTotalSales(new Date().getFullYear())}
     />
   );
 };

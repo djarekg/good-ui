@@ -1,4 +1,4 @@
-import { useQuery } from '@/core/hooks/use-query.js';
+import { useResource } from '@/core/hooks/use-resource.js';
 import { formatter as currencyFormatter } from '@/core/utils/currency';
 import { formatter as numberFormatter } from '@/core/utils/number';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
@@ -24,19 +24,19 @@ const renderIcon = (type: TotalType) => {
 };
 
 type DashboardTotalProps<T extends TotalModel> = {
-  initialData?: T;
-  queryFn: () => Promise<T>;
+  defaultValue?: T;
+  loader: () => Promise<T>;
   label: string;
   type: TotalType;
 };
 
 const DashboardTotal = <T extends TotalModel>({
-  initialData = { total: 0 } as T,
-  queryFn,
+  defaultValue = { total: 0 } as T,
+  loader,
   label,
   type,
 }: DashboardTotalProps<T>) => {
-  const { data } = useQuery<T>({ initialData, queryFn });
+  const { data } = useResource({ defaultValue, loader });
 
   return (
     <section className={styles.container}>

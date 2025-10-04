@@ -7,8 +7,8 @@ const TotalQuantitySold = () => {
     <DashboardTotal
       type={TotalType.int}
       label="Total Quantity"
-      initialData={{ total: 0 }}
-      queryFn={() => getTotalQuantitySold(new Date().getFullYear())}
+      defaultValue={{ total: 0 }}
+      loader={() => getTotalQuantitySold(new Date().getFullYear())}
     />
   );
 };
