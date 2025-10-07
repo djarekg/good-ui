@@ -1,5 +1,6 @@
 import { isEmpty } from '@/core/utils/object.js';
 import type { ProductModel } from '@gui/api';
+import { Grid } from '@mui/material';
 import type { FC } from 'react';
 
 type ProductDetailProps = {
@@ -7,13 +8,15 @@ type ProductDetailProps = {
 };
 
 const ProductDetail: FC<ProductDetailProps> = ({ product }) => {
-  if (isEmpty(product)) {
-    return null;
-  }
+  if (isEmpty(product)) return null;
 
   const { id } = product;
 
-  return <form>{id}</form>;
+  return (
+    <Grid>
+      <form>{id}</form>
+    </Grid>
+  );
 };
 
 export default ProductDetail;

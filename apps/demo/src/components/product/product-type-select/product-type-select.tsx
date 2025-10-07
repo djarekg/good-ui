@@ -1,6 +1,7 @@
 import { getProductTypes } from '@/core/services/product-type.js';
 import type { ProductType } from '@gui/api';
-import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
+import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
+import { Box, IconButton, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import type { FC } from 'react';
 
 type ProductTypeSelectProps = {
@@ -14,30 +15,50 @@ const ProductTypeSelect: FC<ProductTypeSelectProps> = ({ onChange }) => {
     onChange?.(type);
   };
 
-  const renderCard = (productType: ProductType) => {
-    const imageUrl = `/product-types/${productType.toLocaleLowerCase()}.jpeg`;
+  const renderCard = (type: ProductType) => {
+    const imageUrl = `/product-types/${type.toLocaleLowerCase()}.jpeg`;
 
     return (
-      <Card variant="outlined" onClick={() => handleCardClick(productType)}>
-        <CardContent>
-          <Typography variant="h5" component="div">
-            {productType}
-          </Typography>
-          <CardMedia sx={{ height: 100 }} image={imageUrl} title={productType} />
-        </CardContent>
-      </Card>
+      <ImageListItem
+        key={type}
+        sx={{
+          borderRadius: '12px',
+          willChange: 'box-shadow',
+          ':hover': {
+            boxShadow: 'var(--mui-shadows-4)',
+            transition: 'box-shadow 200ms ease-in-out',
+          },
+          // ':hover': { transform: 'scale(1.05)', transition: 'transform 200ms ease-in-out' },
+        }}
+      >
+        <img
+          srcSet={`${imageUrl}?w=124&fit=crop&auto=format&dpr=2 2x`}
+          src={`${imageUrl}?w=124&fit=crop&auto=format`}
+          alt={type}
+          loading="lazy"
+          style={{ borderRadius: '8px' }}
+        />
+        <ImageListItemBar
+          title={type}
+          actionIcon={
+            <IconButton
+              sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+              aria-label={`info about ${type}`}
+              onClick={() => handleCardClick(type)}
+            >
+              <ManageSearchOutlinedIcon />
+            </IconButton>
+          }
+        />
+      </ImageListItem>
     );
   };
 
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
-        width: '100%',
-      }}
-    >
-      {productTypes.map(renderCard)}
+    <Box paddingInline={4}>
+      <ImageList cols={5} gap={18} sx={{ width: '100%' }}>
+        {productTypes.map(renderCard)}
+      </ImageList>
     </Box>
   );
 };

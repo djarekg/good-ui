@@ -8,7 +8,7 @@ import { Link as RouterLink, type LinkProps as RouterLinkProps } from 'react-rou
 // configure them to be the same.
 const LinkBehavior = forwardRef<
   HTMLAnchorElement,
-  Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to']; }
+  Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to'] }
 >((props, ref) => {
   const { href, ...other } = props;
   // Map href (Material UI) -> to (react-router)
@@ -62,7 +62,7 @@ const theme = createTheme({
   },
 });
 
-export default function AppTheme({ children }: { children: ReactNode; }) {
+export default function AppTheme({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline enableColorScheme />

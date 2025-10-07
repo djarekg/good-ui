@@ -2,9 +2,29 @@ import { ApiError } from '@/core/api/api-error.js';
 import type { PlainObject } from '@/types/plain-object.js';
 
 export type ApiOptions = {
+  /**
+   * Optional headers to include with the request.
+   * Keys are header names and values are header values, e.g. { 'Authorization': 'Bearer ...' }.
+   * If you set 'Content-Type' to undefined explicitly the implementation will remove the default.
+   */
   headers?: Record<string, string>;
+  /**
+   * Optional query parameters to append to the URL.
+   * Keys with `undefined` or `null` values are omitted from the query string.
+   * Example: { page: 2, q: 'search' } -> ?page=2&q=search
+   */
   query?: PlainObject;
+  /**
+   * Optional AbortSignal to cancel the request.
+   * Pass an AbortController.signal to abort fetch requests and to stop retries while waiting.
+   */
   signal?: AbortSignal;
+  /**
+   * Number of retry attempts to perform when a connection-refused/network error occurs.
+   * Only used for errors that look like "connection refused" (ERR_CONNECTION_REFUSED / ECONNREFUSED / Failed to fetch).
+   * Defaults to 3.
+   */
+  retry?: number;
 };
 
 /**
@@ -38,6 +58,35 @@ const safeParseResponse = async (res: Response): Promise<unknown> => {
   }
 };
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Heuristic to determine if an error represents a connection-refused / network-level failure.
+ * Covers Node-style error codes (ERR_CONNECTION_REFUSED, ECONNREFUSED) and common browser messages ("Failed to fetch").
+ */
+const isConnectionRefusedError = (err: unknown): boolean => {
+  if (!err) return false;
+  const anyErr = err as any;
+
+  if (typeof anyErr === 'object' && anyErr !== null) {
+    // Node.js style error code
+    if (typeof anyErr.code === 'string') {
+      if (/^(ERR_CONNECTION_REFUSED|ECONNREFUSED)$/i.test(anyErr.code)) return true;
+    }
+    // Some libraries or environments include errno or message
+    if (typeof anyErr.message === 'string') {
+      if (/(ERR_CONNECTION_REFUSED|ECONNREFUSED|Failed to fetch)/i.test(anyErr.message))
+        return true;
+    }
+  }
+
+  // Fallback to string inspection
+  const s = String(err);
+  if (/(ERR_CONNECTION_REFUSED|ECONNREFUSED|Failed to fetch)/i.test(s)) return true;
+
+  return false;
+};
+
 export default function useApi(baseUrl = import.meta.env.VITE_API_URL) {
   const request = async <T = unknown>(
     method: string,
@@ -57,7 +106,7 @@ export default function useApi(baseUrl = import.meta.env.VITE_API_URL) {
       delete headers['Content-Type'];
     }
 
-    const fetchOptions: RequestInit = {
+    const fetchOptionsBase: RequestInit = {
       method,
       headers,
       signal: options.signal,
@@ -69,29 +118,79 @@ export default function useApi(baseUrl = import.meta.env.VITE_API_URL) {
         // If Content-Type is JSON (default), stringify. Otherwise allow raw body.
         const ct = headers['Content-Type'] || '';
         if (ct.includes('application/json')) {
-          fetchOptions.body = JSON.stringify(body);
+          fetchOptionsBase.body = JSON.stringify(body);
         } else {
           // @ts-ignore allow non-string body if caller wants to send FormData, etc.
-          fetchOptions.body = body as any;
+          fetchOptionsBase.body = body as any;
         }
       }
     }
 
-    let res: Response;
-    try {
-      res = await fetch(url, fetchOptions);
-    } catch (err) {
-      // network or CORS error
-      throw err;
+    const maxRetries =
+      typeof options.retry === 'number' && options.retry >= 0 ? Math.floor(options.retry) : 3;
+    let attempt = 0;
+    // @ts-ignore is used in try...catch
+    let lastErr: unknown = null;
+    // Attempt loop: only retry on connection-refused style network errors
+    while (true) {
+      attempt++;
+      // respect abort signal before each attempt
+      if (options.signal?.aborted) {
+        // Let fetch produce the abort error, but here we throw an AbortError to be explicit
+        throw new DOMException('Aborted', 'AbortError');
+      }
+
+      try {
+        // Clone fetch options per attempt (to avoid reusing mutated objects)
+        const fetchOptions: RequestInit = { ...fetchOptionsBase };
+        const res = await fetch(url, fetchOptions);
+
+        const parsed = await safeParseResponse(res);
+
+        if (!res.ok) {
+          throw new ApiError(res.status, res.statusText || 'HTTP Error', parsed);
+        }
+
+        return parsed as T;
+      } catch (err: unknown) {
+        lastErr = err;
+
+        // If the error is a connection-refused type and we have retry budget, retry.
+        const shouldRetry = isConnectionRefusedError(err) && attempt <= maxRetries;
+
+        if (!shouldRetry) {
+          // No retry: rethrow the error
+          throw err;
+        }
+
+        // Retry: wait a short backoff before retrying. Respect abort signal while waiting.
+        const backoffMs = 3000 * Math.pow(2, attempt - 1); // 100, 200, 400, ...
+        try {
+          // Wait but bail early if aborted during wait
+          await Promise.race([
+            sleep(backoffMs),
+            new Promise((_r, reject) => {
+              const sig = options.signal;
+              if (!sig) return;
+              if (sig.aborted) reject(new DOMException('Aborted', 'AbortError'));
+              const onAbort = () => {
+                reject(new DOMException('Aborted', 'AbortError'));
+                sig.removeEventListener('abort', onAbort);
+              };
+              sig.addEventListener('abort', onAbort);
+            }),
+          ]);
+        } catch (abortErr) {
+          // If aborted while waiting, throw abort
+          throw abortErr;
+        }
+
+        console.log(`fetch attempt (${attempt}) ${url}`);
+
+        // loop to retry
+        continue;
+      }
     }
-
-    const parsed = await safeParseResponse(res);
-
-    if (!res.ok) {
-      throw new ApiError(res.status, res.statusText || 'HTTP Error', parsed);
-    }
-
-    return parsed as T;
   };
 
   const get = <T = unknown>(path: string, options?: ApiOptions) =>
