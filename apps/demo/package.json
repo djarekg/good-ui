@@ -16,6 +16,7 @@
     "@gui/api": "workspace:*",
     "@mui/icons-material": "^7.3.3",
     "@mui/material": "^7.3.3",
+    "@mui/x-charts": "^8.13.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^7.9.3"
