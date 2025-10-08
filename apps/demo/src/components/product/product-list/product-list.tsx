@@ -1,7 +1,6 @@
 import { isEmpty } from '@/core/utils/object.js';
 import type { ProductModel } from '@gui/api';
-import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined';
-import { Box, IconButton, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
+import { Box, ImageList, ImageListItem, ImageListItemBar } from '@mui/material';
 import type { FC } from 'react';
 
 type ProductListProps = {
@@ -24,35 +23,22 @@ const ProductList: FC<ProductListProps> = ({ products, onChange }) => {
       <ImageListItem
         key={type}
         sx={{
-          borderRadius: '12px',
-          willChange: 'box-shadow',
+          cursor: 'pointer',
+          willChange: 'transform',
           ':hover': {
-            boxShadow: 'var(--mui-shadows-4)',
-            transition: 'box-shadow 200ms ease-in-out',
+            transform: 'scale(1.06)',
+            transition: 'transform 300ms ease-in-out',
           },
-          // ':hover': { transform: 'scale(1.05)', transition: 'transform 200ms ease-in-out' },
         }}
+        onClick={() => handleCardClick(id)}
       >
         <img
           srcSet={`${imageUrl}?w=124&fit=crop&auto=format&dpr=2 2x`}
           src={`${imageUrl}?w=124&fit=crop&auto=format`}
           alt={type}
           loading="lazy"
-          style={{ borderRadius: '8px' }}
         />
-        <ImageListItemBar
-          title={name}
-          subtitle={description}
-          actionIcon={
-            <IconButton
-              sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-              aria-label={`info about ${type}`}
-              onClick={() => handleCardClick(id)}
-            >
-              <ManageSearchOutlinedIcon />
-            </IconButton>
-          }
-        />
+        <ImageListItemBar title={name} subtitle={description} />
       </ImageListItem>
     );
   };

@@ -11,8 +11,8 @@ import { getProduct, getProductsByType } from '@/core/services';
 import type { ProductModel, ProductType } from '@gui/api';
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined';
-import { Box, IconButton, Step, StepButton, Stepper } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { Box, Button, IconButton, Step, StepButton, Stepper } from '@mui/material';
+import { Activity, useState } from 'react';
 
 const steps = [
   { label: 'Select product type', icon: <ClothIcon /> },
@@ -80,19 +80,6 @@ const Products = () => {
     setActiveStep(StepType.product);
   };
 
-  const renderContent = useMemo(() => {
-    switch (activeStep) {
-      case StepType.productType:
-        return <ProductTypeSelect onChange={handleProductTypeChange} />;
-      case StepType.products:
-        return <ProductList products={products} onChange={handleProductChange} />;
-      case StepType.product:
-        return <ProductDetail product={product} />;
-      default:
-        return null;
-    }
-  }, [activeStep, products, product]);
-
   return (
     <Box paddingInline={4} sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -105,6 +92,7 @@ const Products = () => {
           </Step>
         ))}
       </Stepper>
+
       <section style={{ display: 'flex', justifyContent: 'center', gap: '25rem' }}>
         <IconButton color="primary" size="large" onClick={handleBack}>
           <ArrowBackIosOutlinedIcon fontSize="large" />
@@ -113,7 +101,23 @@ const Products = () => {
           <ArrowForwardIosOutlinedIcon fontSize="large" />
         </IconButton>
       </section>
-      {renderContent}
+
+      <Activity mode={activeStep === StepType.productType ? 'visible' : 'hidden'}>
+        <ProductTypeSelect onChange={handleProductTypeChange} />
+      </Activity>
+
+      <Activity mode={activeStep === StepType.products ? 'visible' : 'hidden'}>
+        <ProductList products={products} onChange={handleProductChange} />
+      </Activity>
+
+      <Activity mode={activeStep === StepType.product ? 'visible' : 'hidden'}>
+        <ProductDetail product={product} />
+      </Activity>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: '25rem' }}>
+        <Button>BACK</Button>
+        <Button>NEXT</Button>
+      </Box>
     </Box>
   );
 };
