@@ -1,11 +1,18 @@
 import { prisma } from '#app/client/index.js';
+import type { ProductTypeTotalByMonthModel } from '#app/types/product-type-total-by-month.js';
+import { getYearRange } from '#app/utils/date.js';
 import type { Context } from 'koa';
 
+type TypesTotalMap = Record<
+  string, // productType
+  Record<number, number> // month -> total
+>;
+
 export const getTopSellers = async (ctx: Context) => {
-  const { params: { year } } = ctx;
-  // Construct the start and end dates for the year
-  const startOfYear = new Date(`${Number(year)}-01-01T00:00:00.000Z`);
-  const startOfNextYear = new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`);
+  const {
+    params: { year },
+  } = ctx;
+  const { startOfYear, startOfNextYear } = getYearRange(year);
 
   try {
     const totalSales = await prisma.productSale.groupBy({
@@ -52,8 +59,7 @@ export const getTopSellers = async (ctx: Context) => {
     });
 
     ctx.body = result;
-  }
-  catch (err) {
+  } catch (err) {
     ctx.status = 500;
     ctx.body = { error: 'Failed to fetch top sellers' };
     console.error('Failed to fetch top sellers', err);
@@ -61,10 +67,10 @@ export const getTopSellers = async (ctx: Context) => {
 };
 
 export const getTopSellingProductTypes = async (ctx: Context) => {
-  const { params: { year } } = ctx;
-  // Construct the start and end dates for the year
-  const startOfYear = new Date(`${Number(year)}-01-01T00:00:00.000Z`);
-  const startOfNextYear = new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`);
+  const {
+    params: { year },
+  } = ctx;
+  const { startOfYear, startOfNextYear } = getYearRange(year);
 
   try {
     // Load sales with product.productType included
@@ -99,8 +105,7 @@ export const getTopSellingProductTypes = async (ctx: Context) => {
       .sort((a, b) => b.total - a.total);
 
     ctx.body = result;
-  }
-  catch (err) {
+  } catch (err) {
     ctx.status = 500;
     ctx.body = { error: 'Failed to fetch top selling product types' };
     console.error('Failed to fetch top selling product types', err);
@@ -108,10 +113,10 @@ export const getTopSellingProductTypes = async (ctx: Context) => {
 };
 
 export const getTotalSales = async (ctx: Context) => {
-  const { params: { year } } = ctx;
-  // Construct the start and end dates for the year
-  const startOfYear = new Date(`${Number(year)}-01-01T00:00:00.000Z`);
-  const startOfNextYear = new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`);
+  const {
+    params: { year },
+  } = ctx;
+  const { startOfYear, startOfNextYear } = getYearRange(year);
 
   try {
     const sales = await prisma.productSale.findMany({
@@ -135,8 +140,7 @@ export const getTotalSales = async (ctx: Context) => {
     }, 0);
 
     ctx.body = { total: totalSales };
-  }
-  catch (err) {
+  } catch (err) {
     ctx.status = 500;
     ctx.body = { error: 'Failed to fetch total sales' };
     console.error('Failed to fetch total sales', err);
@@ -144,10 +148,10 @@ export const getTotalSales = async (ctx: Context) => {
 };
 
 export const getTotalQuantitySold = async (ctx: Context) => {
-  const { params: { year } } = ctx;
-  // Construct the start and end dates for the year
-  const startOfYear = new Date(`${Number(year)}-01-01T00:00:00.000Z`);
-  const startOfNextYear = new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`);
+  const {
+    params: { year },
+  } = ctx;
+  const { startOfYear, startOfNextYear } = getYearRange(year);
 
   try {
     const { _sum } = await prisma.productSale.aggregate({
@@ -163,10 +167,71 @@ export const getTotalQuantitySold = async (ctx: Context) => {
     });
 
     ctx.body = { total: _sum.quantity };
-  }
-  catch (err) {
+  } catch (err) {
     ctx.status = 500;
     ctx.body = { error: 'Failed to fetch total quantity sold' };
     console.error('Failed to fetch total quantity sold', err);
+  }
+};
+
+export const getProductTypeSalesByMonth = async (ctx: Context) => {
+  const {
+    params: { year },
+  } = ctx;
+  const { startOfYear, startOfNextYear } = getYearRange(year);
+
+  try {
+    // Load sales with product.productType included
+    const productSales = await prisma.productSale.findMany({
+      include: {
+        product: {
+          select: {
+            productType: true,
+          },
+        },
+      },
+      where: {
+        dateCreated: {
+          gte: startOfYear,
+          lt: startOfNextYear,
+        },
+      },
+    });
+
+    // Aggregate totals by productType and by month (month is 0-11)
+    const typesTotal = productSales.reduce<TypesTotalMap>((acc, sale) => {
+      const productType = sale.product?.productType ?? 'Unknown';
+      const qty = Number(sale.quantity ?? 0);
+      const price = Number(sale.price ?? 0);
+      const month = sale.dateCreated.getUTCMonth(); // 0-11
+      const value = qty * price;
+
+      if (!acc[productType]) {
+        acc[productType] = {};
+      }
+      acc[productType][month] = (acc[productType][month] || 0) + value;
+      return acc;
+    }, {});
+
+    // Normalize to ensure every month (0-11) exists for each product type (fill missing with 0)
+    const MONTHS = Array.from({ length: 12 }, (_, i) => i);
+
+    const result: ProductTypeTotalByMonthModel[] = Object.entries(typesTotal)
+      .flatMap(([productType, monthsMap]) =>
+        MONTHS.map((m) => ({
+          id: productType,
+          name: productType,
+          month: m,
+          total: monthsMap[m] || 0,
+        }))
+      )
+      // Sort by month ascending, then product type name for deterministic ordering
+      .sort((a, b) => a.month - b.month || a.name.localeCompare(b.name));
+
+    ctx.body = result;
+  } catch (err) {
+    ctx.status = 500;
+    ctx.body = { error: 'Failed to fetch product type sales by month' };
+    console.error('Failed to fetch product type sales by month', err);
   }
 };

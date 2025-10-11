@@ -1,5 +1,6 @@
 import useApi from '@/core/hooks/use-api.js';
 import type {
+  ProductTypeTotalByMonthModel,
   ProductTypeTotalModel,
   TopSellerModel,
   TotalQuantitySoldModel,
@@ -28,4 +29,12 @@ export const getTotalQuantitySold = (year: number) => {
   const { get } = useApi();
 
   return get<TotalQuantitySoldModel>(`/dashboard/total-quantity-sold/${year}`);
+};
+
+export const getTotalProductTypeSalesByMonth = (year: number) => {
+  const { get } = useApi();
+
+  return get<ProductTypeTotalByMonthModel[]>(
+    `/dashboard/total-product-type-sales-by-month/${year}`
+  );
 };

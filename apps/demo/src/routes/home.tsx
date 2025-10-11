@@ -1,3 +1,4 @@
+import TotalProductTypeSalesByMonth from '@/components/dashboard/total-product-type-sales-by-month.js';
 import DashboardTopSellingSkeleton from '@/components/skeleton/dashboard-top-selling-skeleton/dashboard-top-selling-skeleton';
 import DashboardTotalSkeleton from '@/components/skeleton/dashboard-total-skeleton/dashboard-total-skeleton';
 import { lazyDelay } from '@/core/utils/lazy-delay.js';
@@ -28,8 +29,8 @@ const Home = () => {
       <Grid size={2}></Grid>
       <Grid size={2}></Grid>
       <Grid size={4}>
-        <Suspense fallback={<DashboardTopSellingSkeleton />}>
-          <TopSellers />
+        <Suspense fallback={<DashboardTotalSkeleton />}>
+          <TotalProductTypeSalesByMonth />
         </Suspense>
       </Grid>
       <Grid size={4}>
@@ -37,6 +38,14 @@ const Home = () => {
           <TopSellingProductTypes />
         </Suspense>
       </Grid>
+      <Grid size={2}></Grid>
+      <Grid size={2}></Grid>
+      <Grid size={4}>
+        <Suspense fallback={<DashboardTopSellingSkeleton />}>
+          <TopSellers />
+        </Suspense>
+      </Grid>
+      <Grid size={4}></Grid>
       <Grid size={2}></Grid>
     </Grid>
   );

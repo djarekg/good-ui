@@ -4,11 +4,16 @@ import json from '@eslint/json';
 import markdown from '@eslint/markdown';
 import pluginReact from 'eslint-plugin-react';
 import reactCompiler from 'eslint-plugin-react-compiler';
+import reactHooks from 'eslint-plugin-react-hooks';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
+  tseslint.configs.recommended,
+  pluginReact.configs.flat.recommended,
+  reactCompiler.configs.recommended,
+  reactHooks.configs.flat.recommended,
   {
     files: ['**/*.{js,mjs,ts,jsx,tsx}'],
     plugins: { js },
@@ -42,9 +47,6 @@ export default defineConfig([
       'react-compiler/react-compiler': 'error',
     },
   },
-  tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
-  reactCompiler.configs.recommended,
   {
     files: ['**/*.json'],
     plugins: { json },

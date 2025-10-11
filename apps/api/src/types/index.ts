@@ -1,4 +1,5 @@
 export * from './customer-header-info.js';
+export * from './product-type-total-by-month.js';
 export * from './product-type-total.js';
 export * from './search-result-params.js';
 export * from './search-result.js';
